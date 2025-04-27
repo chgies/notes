@@ -9,7 +9,6 @@ class NoteService {
   Note createNote({
     required String title,
     required String description,
-    required Priority priority,
     required TaskLength taskLength,
     required EisenhowerCategory eisenhowerCategory,
     DateTime? dueDate,
@@ -21,7 +20,6 @@ class NoteService {
       description: description,
       createdAt: DateTime.now(),
       dueDate: dueDate,
-      priority: priority,
       taskLength: taskLength,
       eisenhowerCategory: eisenhowerCategory,
       tags: tags,
@@ -47,7 +45,6 @@ class NoteService {
     required String id,
     String? title,
     String? description,
-    Priority? priority,
     TaskLength? taskLength,
     EisenhowerCategory? eisenhowerCategory,
     DateTime? dueDate,
@@ -64,7 +61,6 @@ class NoteService {
       description: description ?? note.description,
       createdAt: note.createdAt,
       dueDate: dueDate ?? note.dueDate,
-      priority: priority ?? note.priority,
       taskLength: taskLength ?? note.taskLength,
       eisenhowerCategory: eisenhowerCategory ?? note.eisenhowerCategory,
       tags: tags ?? note.tags,
@@ -83,5 +79,35 @@ class NoteService {
   // Alle Notizen abrufen
   List<Note> getAllNotes() {
     return _notes;
+  }
+
+  // Eigenschaft einer Notiz ausgeben
+  getAttribute(String id, String attribute) {
+    final note = findNoteById(id);
+    if (note != null) {
+      switch (attribute) {
+        case "title":
+          return note.title;
+        case "description":
+          return note.description;
+        case "taskLength":
+          return note.taskLength.name;
+        case "eisenhowerCategory":
+          return note.eisenhowerCategory.name;
+        case "createdAt":
+          return note.createdAt;
+        case "dueDate":
+          return note.dueDate;
+        case "tags":
+          return note.tags;
+        case "isCompleted":
+          return note.completed;
+        default:
+          throw Exception("Attribut nicht gefunden");
+      }
+    }
+    else {
+      return "";
+    }
   }
 }

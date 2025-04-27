@@ -10,7 +10,6 @@ class NoteListViewModel {
     _noteService.createNote(
       title: title,
       description: description,
-      priority: Priority.low,
       taskLength: TaskLength.small,
       eisenhowerCategory: EisenhowerCategory.notUrgentNotImportant,
       dueDate: DateTime.now().add(Duration(days: 7)),
@@ -23,7 +22,6 @@ class NoteListViewModel {
       id: id,
       title: whatToUpdate == "title" ? newValue : null,
       description: whatToUpdate == "description" ? newValue : null,
-      priority: whatToUpdate == "priority" ? Priority.values.firstWhere((e) => e.name == newValue) : null,
       taskLength: whatToUpdate == "taskLength" ? TaskLength.values.firstWhere((e) => e.name == newValue) : null,
       eisenhowerCategory: whatToUpdate == "eisenhowerCategory" ? EisenhowerCategory.values.firstWhere((e) => e.name == newValue) : null,
       dueDate: whatToUpdate == "dueDate" ? DateTime.parse(newValue) : null,
@@ -37,5 +35,10 @@ class NoteListViewModel {
 
   Note getLastNote() {
     return _noteService.getAllNotes().last;
+  }
+
+
+  getAttribute(String id, String attribute) {
+    return _noteService.getAttribute(id, attribute);
   }
 }

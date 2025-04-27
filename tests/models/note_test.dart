@@ -9,7 +9,6 @@ void main() {
         title: '',
         description: '',
         createdAt: DateTime.now(),
-        priority: Priority.low,
         taskLength: TaskLength.small,
         eisenhowerCategory: EisenhowerCategory.notUrgentNotImportant,
       );
@@ -26,7 +25,6 @@ void main() {
         title: '@Test#Note€',
         description: 'Beschreibung mit Sonderzeichen: @, #, €',
         createdAt: DateTime.now(),
-        priority: Priority.medium,
         taskLength: TaskLength.large,
         eisenhowerCategory: EisenhowerCategory.urgentImportant,
       );

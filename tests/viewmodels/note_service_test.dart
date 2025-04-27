@@ -14,7 +14,6 @@ void main() {
       final note = noteService.createNote(
         title: '',
         description: '',
-        priority: Priority.low,
         taskLength: TaskLength.small,
         eisenhowerCategory: EisenhowerCategory.notUrgentNotImportant,
       );
@@ -28,7 +27,6 @@ void main() {
       final note = noteService.createNote(
         title: longString,
         description: longString,
-        priority: Priority.medium,
         taskLength: TaskLength.large,
         eisenhowerCategory: EisenhowerCategory.urgentImportant,
       );
@@ -47,13 +45,78 @@ void main() {
         noteService.createNote(
           title: 'Note $i',
           description: 'Beschreibung $i',
-          priority: Priority.low,
           taskLength: TaskLength.small,
           eisenhowerCategory: EisenhowerCategory.notUrgentNotImportant,
         );
       }
 
       expect(noteService.getAllNotes().length, 10000);
+    });
+  });
+
+ group('NoteService - getAttribute()', () {
+    late NoteService noteService;
+    late Note testNote;
+
+    setUp(() {
+      noteService = NoteService();
+      testNote = noteService.createNote(
+        title: 'Test Note',
+        description: 'Test Beschreibung',
+        taskLength: TaskLength.large,
+        eisenhowerCategory: EisenhowerCategory.urgentImportant,
+        dueDate: DateTime(2025, 4, 30),
+        tags: ['Tag1', 'Tag2'],
+      );
+    });
+
+    test('getAttribute() sollte den Titel zurückgeben', () {
+      final result = noteService.getAttribute(testNote.id, 'title');
+      expect(result, 'Test Note');
+    });
+
+    test('getAttribute() sollte die Beschreibung zurückgeben', () {
+      final result = noteService.getAttribute(testNote.id, 'description');
+      expect(result, 'Test Beschreibung');
+    });
+
+    test('getAttribute() sollte die Aufgabenlänge zurückgeben', () {
+      final result = noteService.getAttribute(testNote.id, 'taskLength');
+      expect(result, 'large');
+    });
+
+    test('getAttribute() sollte die Eisenhower-Kategorie zurückgeben', () {
+      final result = noteService.getAttribute(testNote.id, 'eisenhowerCategory');
+      expect(result, 'urgentImportant');
+    });
+
+    test('getAttribute() sollte das Erstellungsdatum zurückgeben', () {
+      final result = noteService.getAttribute(testNote.id, 'createdAt');
+      expect(result, isA<DateTime>());
+    });
+
+    test('getAttribute() sollte das Fälligkeitsdatum zurückgeben', () {
+      final result = noteService.getAttribute(testNote.id, 'dueDate');
+      expect(result, DateTime(2025, 4, 30));
+    });
+
+    test('getAttribute() sollte die Tags zurückgeben', () {
+      final result = noteService.getAttribute(testNote.id, 'tags');
+      expect(result, ['Tag1', 'Tag2']);
+    });
+
+    test('getAttribute() sollte den Status "completed" zurückgeben', () {
+      final result = noteService.getAttribute(testNote.id, 'isCompleted');
+      expect(result, false);
+    });
+
+    test('getAttribute() sollte eine Exception werfen, wenn das Attribut nicht existiert', () {
+      expect(() => noteService.getAttribute(testNote.id, 'nonexistentAttribute'), throwsException);
+    });
+
+    test('getAttribute() sollte einen leeren String zurückgeben, wenn die Notiz nicht existiert', () {
+      final result = noteService.getAttribute('nonexistent-id', 'title');
+      expect(result, '');
     });
   });
 }
