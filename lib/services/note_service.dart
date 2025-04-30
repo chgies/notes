@@ -110,4 +110,14 @@ class NoteService {
       return "";
     }
   }
+
+  // Gibt alle möglichen Werte der Eisenhower-Kategorie zurück
+List<String> getEisenhowerCategories() {
+  return EisenhowerCategory.values.map((e) => e.name).toList();
+}
+
+  // Gibt alle möglichen Werte der Aufgabenlänge zurück
+  List<String> getTaskLengths() {
+    return TaskLength.values.map((e) => e.name).toList();
+  }
 }

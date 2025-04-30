@@ -41,4 +41,12 @@ class NoteListViewModel {
   getAttribute(String id, String attribute) {
     return _noteService.getAttribute(id, attribute);
   }
+
+  static getEisenhowerCategories() {
+    return EisenhowerCategory.values.map((e) => e.name).toList();
+  }
+
+  static getTaskLengths() {
+    return TaskLength.values.map((e) => e.name).toList();
+  }
 }
